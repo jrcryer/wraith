@@ -11,16 +11,16 @@
 module.exports = function(grunt) {
 
   var config = require('./lib/config').init(grunt);
-  //var snap   = require('./lib/snap');
   var wraith = require('./lib/wraith');
 
   grunt.registerMultiTask('wraith', 'BBC Responsive News\' Wraith... Gruntified', function() {
 
     var options = this.options({
-      output: './shots'
+      output: './shots',
+      browser: 'phantomjs'
     });
     config.load(options);
-    wraith.init(grunt, config, null).run();
+    wraith.init(grunt, config).run();
     grunt.log.writeln('Done!');
   });
 

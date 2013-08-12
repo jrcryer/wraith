@@ -1,6 +1,6 @@
+/* global window, phantom */
 var system = require('system');
 var page   = require('webpage').create();
-var fs     = require('fs');
 
 if (system.args.length === 3) {
     console.log('Usage: snap.js <some URL> <view port width> <target image name>');

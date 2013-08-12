@@ -18,6 +18,11 @@ exports.init = function(grunt) {
     var output = '';
 
     /**
+     * Browser to be used
+     */
+    var browser = '';
+
+    /**
      * Load the options
      */
     var load = function(options) {
@@ -27,6 +32,7 @@ exports.init = function(grunt) {
         }
         config = grunt.file.readYAML(options.config);
         output = options.output;
+        browser = options.browser;
     };
 
     /**
@@ -81,15 +87,24 @@ exports.init = function(grunt) {
      * Returns the output directory
      * @return String
      */
-    var output = function() {
+    var getOutput = function() {
         return output;
+    };
+
+    /**
+     * Returns browser
+     * @return String
+     */
+    var getBrowser = function() {
+        return browser;
     };
 
     return {
         load: load,
         widths: widths,
         paths: paths,
-        output: output,
+        browser: getBrowser,
+        output: getOutput,
         baseLabel: baseLabel,
         baseDomain: baseDomain,
         comparisonLabel: comparisonLabel,

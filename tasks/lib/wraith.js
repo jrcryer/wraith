@@ -6,8 +6,14 @@
  * Licensed under the MIT license.
  */
 var rimraf = require('rimraf');
+var child_process = require('child_process');
 
-exports.init = function(grunt, config, snap) {
+exports.init = function(grunt, config) {
+
+    /**
+     * Script for capturing screenshot of webpage
+     */
+    var captureScript = 'tasks/lib/snap.js';
 
     /**
      * Runs wraith
@@ -62,6 +68,32 @@ exports.init = function(grunt, config, snap) {
      */
     var compare = function() {
         grunt.verbose.writeln('Comparing ' + config.baseDomain() + ' to '+ config.comparisonDomain());
+
+        var files = grunt.file.expand({cwd: config.output()}, '**/*.png');
+
+        while (files.length > 0) {
+            var base = [config.output(), files.pop()].join('/');
+            var compare = [config.output(), files.pop()].join('/');
+            grunt.verbose.writeln('Comparing ' + base + ' to '+ compare);
+
+            diffImages(base, compare);
+        }
+    };
+
+    /**
+     * Create a difference between two images
+     *
+     * @param String baseImage
+     * @param String comparisonImage
+     */
+    var diffImages = function(baseImage, comparisonImage) {
+        var output = baseImage.split('.')[0] + '_diff.png';
+        var data   = baseImage.split('.')[0] + '_diff.txt';
+
+        console.log(['compare -fuzz 20% -metric AE -highlight-color blue', baseImage, comparisonImage, output, '2>', data].join(' '));
+        child_process.exec(['compare -fuzz 20% -metric AE -highlight-color blue', baseImage, comparisonImage, output, '2>', data].join(' '), function() {
+
+        });
     };
 
     /**
@@ -70,7 +102,45 @@ exports.init = function(grunt, config, snap) {
      */
     var save = function() {
         grunt.verbose.writeln('Taking screenshots for ' + config.baseDomain() + ' and '+ config.comparisonDomain());
+        Object.keys(config.paths()).forEach(processPath);
+    };
 
+    /**
+     * Process a single path
+     *
+     * @param String key
+     */
+    var processPath = function(key) {
+        var path = config.paths()[key];
+        var filePath = config.output() + '/' + key + '/';
+
+        grunt.verbose.writeln('Creating directory for: ' + filePath);
+        grunt.file.mkdir(filePath);
+
+        config.widths().forEach(function(width) {
+            var baseUrl = config.baseDomain() + path;
+            var compareUrl = config.comparisonDomain() + path;
+
+            var baseFilename = filePath + width + '_' + config.baseLabel() + '.png';
+            var compareFilename = filePath + width + '_' + config.comparisonLabel() + '.png';
+
+            capture(baseUrl, width, baseFilename);
+            capture(compareUrl, width, compareFilename);
+        });
+    };
+
+    /**
+     * Capture images for a specific url, at a given width and
+     * saving to filename
+     *
+     * @param String url
+     * @param String width
+     * @param String filename
+     */
+    var capture = function(url, width, filename) {
+        child_process.exec([config.browser(),captureScript, url, width, filename].join(' '), function() {
+
+        });
     };
 
     return {
