@@ -1,0 +1,37 @@
+{
+  "name": "grunt-wraith",
+  "version": "0.0.1",
+  "description": "BBC Responsive News' Wraith... Gruntified",
+  "homepage": "https://github.com/jrcryer/wraith",
+  "bugs": "https://github.com/jrcryer/grunt-wraith/issues",
+  "author": {
+    "name": "James Cryer",
+    "email": "chat@jamescryer.com",
+    "url": "http://www.jamescryer.com"
+  },
+  "keywords": [
+    "gruntplugin"
+  ],
+  "main": "Gruntfile.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jrcryer/grunt-wraith"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+  "dependencies": {
+    "rimraf": "~2.2.1"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.0",
+    "grunt-contrib-jshint": "~0.2.0",
+    "grunt-contrib-nodeunit": "~0.1.2",
+    "grunt-contrib-clean": "~0.4.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  }
+}

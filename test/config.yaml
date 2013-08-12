@@ -1,0 +1,24 @@
+# Add only 2 domains, key will act as a label
+domains:
+  uk: "http://google.com"
+  france: "http://google.fr"
+
+#Type screen widths below, here are a couple of examples
+screen_widths:
+  - 320
+  - 600
+  - 768
+  - 1024
+  - 1280
+
+#Type page URL paths below, here are a couple of examples
+paths:
+  search_page: /imghp
+  map_page: /maps
+
+# If you don't want to name the paths explicitly you can use a yaml
+# collection as follows, and names will be derived by replacing / with _
+#
+# paths:
+#  - /imghp
+#  - /maps
