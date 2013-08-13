@@ -90,7 +90,6 @@ exports.init = function(grunt, config) {
         var output = baseImage.split('.')[0] + '_diff.png';
         var data   = baseImage.split('.')[0] + '_diff.txt';
 
-        console.log(['compare -fuzz 20% -metric AE -highlight-color blue', baseImage, comparisonImage, output, '2>', data].join(' '));
         child_process.exec(['compare -fuzz 20% -metric AE -highlight-color blue', baseImage, comparisonImage, output, '2>', data].join(' '), function() {
 
         });
